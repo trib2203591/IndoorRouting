@@ -1,3 +1,11 @@
+This is another version of the IndoorSensing project, it removes the sensing part and anything related to Sensorthing API
+And on top of that add the Routing function to calculate path between 2 indoor location
+This is just the front end code that connected to 
+OGC-IMDF-API  https://github.com/vu0cay/OGC-IMDF-API.git
+and
+Routing-Service  https://github.com/vu0cay/Routing-Service.git
+
+HOW TO RUN THE PROJECT
 ---------
 - npm install ol
 - php artisan breeze:install
