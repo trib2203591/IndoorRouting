@@ -9,6 +9,7 @@
     {{-- Feature Selector Pane --}}
     <div class="w-full flex items-center justify-center mt-2 relative">
         <div class="m-2 w-[95%] h-fit rounded-xl">
+
             <div class="relative">
                 <input type="text" id="featureSearch" placeholder="Tìm loại đối tượng..."
                     class="w-full p-3 border-gray-200 border-2 rounded-t-xl" />
@@ -20,6 +21,7 @@
                     @endforeach
                 </div>
             </div>
+            <h2 class="ml-2 font-bold text-red-500">Các trường có * là bắt buộc</h2>
         </div>
     </div>
 
