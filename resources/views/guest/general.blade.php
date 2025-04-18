@@ -76,9 +76,8 @@
                 <form method="POST" action="{{ route('logout') }}" class="w-fit flex flex-row items-center gap-14">
                     @csrf
                     <button type="submit"
-                        class="bg-fourthBlue hover:bg-red-600 text-white font-bold py-2 px-4 rounded flex items-center justify-center w-fit">
-                        <img src="{{ Vite::asset('resources/images/logout.png') }}" class="w-4 h-4 mr-2" alt="Logout icon">
-                        <h1 class="text-xs font-semi">Đăng xuất</h1>
+                        class="bg-fourthBlue hover:bg-activeTab text-white font-bold py-2 px-4 rounded flex items-center justify-center w-fit">
+                        <h1 class="text-xs font-semi">Đăng Nhập</h1>
 
                     </button>
                     <!-- Version -->
