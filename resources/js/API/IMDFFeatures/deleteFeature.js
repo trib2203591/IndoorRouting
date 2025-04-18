@@ -6,7 +6,6 @@ export const deleteFeature = async (featureID, feature_type) => {
     if (!response.ok) {
         throw new Error(`Failed to delete feature: ${response.status} ${response.statusText}`);
     }
-
 }
 
 function getCorrectFeatureType(feature_type) {

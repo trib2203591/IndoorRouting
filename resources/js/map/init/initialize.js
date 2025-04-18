@@ -82,7 +82,7 @@ function initFloorSelector() {
 function initSidePanel() {
     //side panel close button
     document.getElementById("close-btn").onclick = function () {
-        document.getElementById('side-panel').style.left = "-400px";
+        document.getElementById('side-panel').style.left = "-500px";
         removeHighlight();
     };
 }

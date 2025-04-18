@@ -41,7 +41,7 @@ export async function setMapLevel(ordinal) {
     });
 
     const routeGuideSource = new VectorSource({
-        features: await routeGuideOnLevel(levels)
+        features: await routeGuideOnLevel(ordinal)
     });
 
     global.levels.setSource(levelsource);
@@ -121,16 +121,11 @@ async function routeOnOrdinal(ordinal) {
         return [];
     }
     const route = routegeojson;
+    console.log(route.filter(r => String(r.values_.ordinal) === String(ordinal)))
     return route.filter(r => String(r.values_.ordinal) === String(ordinal));
 }
 
-async function routeGuideOnLevel(levels) {
+async function routeGuideOnLevel(ordinal) {
     if(!routeGuideGeojson) return [];
-
-    let temp = [];
-    levels.forEach(function(l){
-        temp = temp.concat(routeGuideGeojson.filter(g => String(g.values_.levelId) === String(l.id_)));
-    });
-
-    return temp;
+    return routeGuideGeojson.filter(g => String(g.values_.ordinal) === String(ordinal));
 }
