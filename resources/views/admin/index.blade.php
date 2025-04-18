@@ -70,7 +70,7 @@
                     // Adjust side panel position if it exists
                     const sidePanel = document.getElementById('side-panel');
                     if (sidePanel) {
-                        if (sidePanel.style.left === '-400px' || !sidePanel.style.left) {
+                        if (sidePanel.style.left === '-500px' || !sidePanel.style.left) {
                             // Side panel is hidden, do nothing
                             return;
                         } else if (sidebar && sidebar.classList.contains('hidden')) {
@@ -87,7 +87,7 @@
                 toggleMobileBtn.addEventListener('click', function() {
                     const sidePanel = document.getElementById('side-panel');
                     if (sidePanel) {
-                        if (sidePanel.style.left === '-400px' || !sidePanel.style.left) {
+                        if (sidePanel.style.left === '-500px' || !sidePanel.style.left) {
                             // Side panel is hidden, do nothing
                             return;
                         } else if (sidebar && sidebar.classList.contains('hidden')) {
