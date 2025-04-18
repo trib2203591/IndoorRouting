@@ -2,8 +2,9 @@ import VectorSource from 'ol/source/Vector.js';
 
 import { IMDFData } from "../../init/data";
 import { global } from "../../init/global";
+import { selectedOptions } from '../../init/initFeatureFilter';
 
-export async function setMapLevel(ordinal, filters) {
+export async function setMapLevel(ordinal) {
     const levels = await levelOnOrdinal(ordinal);
     const levelsource = new VectorSource({
         features: levels
@@ -62,7 +63,7 @@ export async function setMapLevel(ordinal, filters) {
     //if the feature is in filters, add source to filterToApply
     //if the feature is not in filters, when access it is undefined, automatically remove from the map
     const filtersToAply = {};
-    filters.forEach((feature) => {
+    selectedOptions.forEach((feature) => {
         filtersToAply[feature] = allFeaturesSource[feature];
     });
 
