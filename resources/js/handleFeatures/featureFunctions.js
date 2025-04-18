@@ -462,8 +462,9 @@ function getFeatureBody(featureType) {
 
 export async function postFeature(featureType) {
     try {
-
-        var feature = JSON.stringify(getFeatureBody(featureType));
+        await createGeoJson();
+        const geoJsonPane = document.getElementById('json-review')
+        var feature = geoJsonPane.value;
 
         const response = await postIMDFFeature(feature, featureType);
         if (response.ok) {

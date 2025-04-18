@@ -16,6 +16,7 @@ export const updateIMDFFeature = async (featureID, feature_type, feature) => {
 
 function getCorrectFeatureType(feature_type) {
     switch (feature_type) {
+        case "address": return "addresses";
         case "amenity": return "amenities";
         case "anchor": return "anchors";
         case "building": return "buildings";

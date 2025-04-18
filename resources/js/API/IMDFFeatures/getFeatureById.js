@@ -10,6 +10,7 @@ export const getFeatureById = async (featureID, feature_type) => {
 
 function getCorrectFeatureType(feature_type) {
     switch (feature_type) {
+        case "address": return "addresses";
         case "amenity": return "amenities";
         case "anchor": return "anchors";
         case "building": return "buildings";

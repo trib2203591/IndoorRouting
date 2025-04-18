@@ -71,11 +71,10 @@ async function handleSearch(e) {
                     setMapLevel(ordinal);
                     const floorSelect = document.getElementById("floor-select");
                     floorSelect.value = ordinal;
-
-                    zoomInto(item);
-                    highlightFeature(item);
                     toggleSidePanel(item);
                     dropdown.style.display = "none"; // Hide the dropdown
+                    zoomInto(item);
+                    highlightFeature(item);
                 });
                 dropdown.appendChild(div);
             });

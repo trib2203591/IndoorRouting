@@ -134,12 +134,13 @@ const sidePanelLayerHandler = async (feature, layerType) => {
             try {
                 await deleteFeature(feature.getId(), feature.values_.feature_type); // Ensure async/await for deleteFeature
                 console.log("deleted");
+                successDialog.classList.remove("hidden");
             } catch (error) {
                 console.error("Error deleting feature:", error);
                 alert("An error occurred while deleting the feature.");
             }
             // Show success dialog
-            successDialog.classList.remove("hidden");
+
         });
 
         // Close the success dialog
