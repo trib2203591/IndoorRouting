@@ -1,6 +1,8 @@
+
 1.In new project run
 npm install
 composer install
+
 
 2.Copy .env.example file
 cp .env.example .env
