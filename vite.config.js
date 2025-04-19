@@ -7,6 +7,7 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/css/scrollbar.css',
+                'resources/css/style.css',
 
                 'resources/js/app.js',
                 'resources/js/main.js',

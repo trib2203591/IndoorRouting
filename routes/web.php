@@ -59,7 +59,7 @@ Route::get('/guest', function () {
         return redirect()->route('admin.index');
     }
     return view('guest.index');
-})->middleware(['auth', 'verified'])->name('guest.index');
+})->name('guest.index');
 
 Route::get('/guest/sensors', [SensorController::class, 'indexGuest'])->middleware(['auth', 'verified'])->name('guest.sensor');
 

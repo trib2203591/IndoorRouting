@@ -45,12 +45,12 @@
                 </h3>
                 <p class="mt-2">Chọn điểm bắt đầu</p>
                 <div class="mt-1 w-full md:w-auto routing-search-container">
-                    <input type="text" id="start-routing-search-bar" data-id="" placeholder="Gõ để tìm kiếm..." class="w-full md:w-auto bg-gray-100 border-transparent rounded-md px-3 py-2">
+                    <input type="text" id="start-routing-search-bar" data-id="" autocomplete="off" placeholder="Gõ để tìm kiếm..." class="w-full md:w-auto bg-gray-100 border-transparent rounded-md px-3 py-2">
                     <div class="start-routing-dropdown" id="start-routing-dropdown"></div>
                 </div>
                 <p class="mt-2">Chọn điểm kết thúc</p>
                 <div class="mt-1 w-full md:w-auto routing-search-container">
-                    <input type="text" id="end-routing-search-bar" data-id="" placeholder="Gõ để tìm kiếm..." class="w-full md:w-auto bg-gray-100 border-transparent rounded-md px-3 py-2">
+                    <input type="text" id="end-routing-search-bar" data-id="" autocomplete="off" placeholder="Gõ để tìm kiếm..." class="w-full md:w-auto bg-gray-100 border-transparent rounded-md px-3 py-2">
                     <div class="end-routing-dropdown" id="end-routing-dropdown"></div>
                 </div>
                 <div class="flex justify">

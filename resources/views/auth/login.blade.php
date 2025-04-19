@@ -7,7 +7,7 @@
         <div class="flex flex-col md:flex-row bg-scndBlue w-full max-w-lg md:max-w-3xl shadow-xl rounded-xl overflow-hidden">
             <div class="flex-1 flex flex-col items-center justify-center p-6">
                 <img src="{{ asset('images/ctu.png') }}" alt="Logo" class="w-20 md:w-28">
-                <h1 class="text-white text-lg font-light mt-1">Chào mừng trở lại</h1>
+                <h1 class="text-white text-lg font-light mt-1">Chào mừng</h1>
                 <h1 class="font-extrabold text-xl md:text-2xl text-white mt-2">Indoor Sensing</h1>
             </div>
 
@@ -40,22 +40,22 @@
                 </div>
 
                 <div class="mt-5 flex flex-col space-y-4">
-                    @if (Route::has('password.request'))
+                    {{-- @if (Route::has('password.request'))
                         <a class="text-sm text-gray-600 hover:text-gray-900"
                             href="{{ route('password.request') }}">
                             {{ __('Quên mật khẩu?') }}
                         </a>
-                    @endif
+                    @endif --}}
 
                     <x-primary-button class="w-full h-12 bg-scndBlue hover:bg-thirdBlue">
                         {{ __('Đăng nhập') }}
                     </x-primary-button>
 
                     <div class="text-center">
-                        <span class="text-gray-600">{{ __('Chưa có tài khoản?') }}</span>
+                        {{-- <span class="text-gray-600">{{ __('Chưa có tài khoản?') }}</span>
                         <a class="text-scndBlue font-bold hover:text-gray-700" href="{{ route('register') }}">
                             {{ __('Đăng ký ngay!') }}
-                        </a>
+                        </a> --}}
                     </div>
                 </div>
             </form>

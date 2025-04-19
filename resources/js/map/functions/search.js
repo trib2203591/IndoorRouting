@@ -36,32 +36,45 @@ async function handleSearch(e) {
                 if (item.values_.name?.vi) {
                     labelForDropdown = item.values_.name.vi;
                     div.textContent = item.values_.name.vi;
-                } else if (unit.values_.alt_name) {
-                    if (unit.values_.alt_name.vi) {
-                        labelForDropdown = unit.values_.alt_name.vi;
-                        div.textContent = unit.values_.alt_name.vi;
-                    } else if (unit.values_.alt_name.en) {
-                        labelForDropdown = unit.values_.alt_name.en;
-                        div.textContent = unit.values_.alt_name.en;
+                } else if (item.values_.alt_name) {
+                    if (item.values_.alt_name.vi) {
+                        labelForDropdown = item.values_.alt_name.vi;
+                        div.textContent = item.values_.alt_name.vi;
+                    } else if (item.values_.alt_name.en) {
+                        labelForDropdown = item.values_.alt_name.en;
+                        div.textContent = item.values_.alt_name.en;
                     } else {
-                        labelForDropdown = unit.values_.alt_name;
-                        div.textContent = unit.values_.alt_name;
+                        labelForDropdown = item.values_.alt_name;
+                        div.textContent = item.values_.alt_name;
+                    }
+                }
+                if(labelForDropdown === "" || !labelForDropdown ) {
+                    if(item.values_.category){
+                        labelForDropdown = item.values_.category;
+                        div.textContent = item.values_.category;
+                    } else{
+                        labelForDropdown = item.id_;
+                        div.textContent = item.id_;
                     }
                 }
                 div.addEventListener("click", () => {
                     searchBar.value = labelForDropdown; // Update the search bar
 
                     //change the floor base on the location of found unit
-                    const ordinal =
-                        IMDFDataByID[item.get("level_id")].get("ordinal");
+                    let ordinal = 0;
+                    if(item.get("unit_ids")){
+                        ordinal = IMDFDataByID[IMDFDataByID[item.get("unit_ids")[0]].get("level_id")].get("ordinal");
+                    }
+                    if(item.get("level_id")) {
+                        ordinal = IMDFDataByID[item.get("level_id")].get("ordinal");
+                    }
                     setMapLevel(ordinal);
                     const floorSelect = document.getElementById("floor-select");
                     floorSelect.value = ordinal;
-
-                    zoomInto(item);
-                    highlightFeature(item);
                     toggleSidePanel(item);
                     dropdown.style.display = "none"; // Hide the dropdown
+                    zoomInto(item);
+                    highlightFeature(item);
                 });
                 dropdown.appendChild(div);
             });
@@ -98,6 +111,10 @@ function search(query) {
             }
         }
     });
+
+    if(IMDFDataByID[query]) {
+        results.push(IMDFDataByID[query]);
+    }
 
     return results;
 }

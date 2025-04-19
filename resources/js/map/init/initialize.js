@@ -12,7 +12,7 @@ import { setMapLevel } from "../functions/levelSelector/itemsOnLevel";
 import { removeHighlight } from "../functions/onClick/hightLight";
 import { mapOnClickHandler, getLayerType } from "../functions/onClick/onClickHandle";
 import { highlightFeatureOnMove } from "../functions/onClick/hightLight";
-import { initSearchFunction } from "../functions/searchUnitandSensor";
+import { initSearchFunction } from "../functions/search";
 import { initFeatureFilter } from "./initFeatureFilter";
 
 
@@ -51,20 +51,7 @@ export const initialize = async () => {
                 lastExecutionTime = currentTime;
             }
         });
-
-        const allfeatures = [
-            "amenities",
-            "anchors",
-            "buildings",
-            "fixtures",
-            "footprints",
-            "kiosks",
-            "levels",
-            "openings",
-            "units",
-            "venues"
-        ]
-        setMapLevel(0, allfeatures);
+        setMapLevel(0);
     } catch (error) {
         console.error("Error during initialization:", error);
     } finally {
@@ -82,7 +69,7 @@ function initFloorSelector() {
 function initSidePanel() {
     //side panel close button
     document.getElementById("close-btn").onclick = function () {
-        document.getElementById('side-panel').style.left = "-400px";
+        document.getElementById('side-panel').style.left = "-500px";
         removeHighlight();
     };
 }

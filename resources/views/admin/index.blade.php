@@ -43,7 +43,7 @@
 
 @section('content')
     <div class="justify-center">
-        <div id="side-panel" class="fixed left-[-400px] top-[200px] w-[300px] bg-white shadow-[-2px_0_5px_rgba(0,0,0,0.2)] overflow-auto transition-all duration-300 z-50 rounded-2xl h-fit">
+        <div id="side-panel" class="fixed left-[-500px] top-[100px] w-[450px] bg-white shadow-[-2px_0_5px_rgba(0,0,0,0.2)] overflow-auto transition-all duration-300 z-50 rounded-2xl h-fit">
             <span id="close-btn" class="mr-2">&times;</span>
             <div id="side-panel-content"></div>
         </div>
@@ -70,7 +70,7 @@
                     // Adjust side panel position if it exists
                     const sidePanel = document.getElementById('side-panel');
                     if (sidePanel) {
-                        if (sidePanel.style.left === '-400px' || !sidePanel.style.left) {
+                        if (sidePanel.style.left === '-500px' || !sidePanel.style.left) {
                             // Side panel is hidden, do nothing
                             return;
                         } else if (sidebar && sidebar.classList.contains('hidden')) {
@@ -87,7 +87,7 @@
                 toggleMobileBtn.addEventListener('click', function() {
                     const sidePanel = document.getElementById('side-panel');
                     if (sidePanel) {
-                        if (sidePanel.style.left === '-400px' || !sidePanel.style.left) {
+                        if (sidePanel.style.left === '-500px' || !sidePanel.style.left) {
                             // Side panel is hidden, do nothing
                             return;
                         } else if (sidebar && sidebar.classList.contains('hidden')) {

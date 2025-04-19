@@ -17,7 +17,7 @@ export async function showNextRouteGuide() {
             {
                 type: "Feature",
                 properties: {
-                    levelId: routeGuideArray[cursor].levelId
+                    ordinal: routeGuideArray[cursor].ordinal
                 },
                 geometry: {
                     type: "LineString",
@@ -36,7 +36,12 @@ export async function showNextRouteGuide() {
         featureProjection: 'EPSG:4326',
     });
     document.getElementById("routing-guide-message").innerText = routeGuideArray[cursor+1].direction;
-    await setMapLevel(IMDFDataByID[routeGuideArray[cursor].levelId].values_.ordinal);
+
+    await setMapLevel(routeGuideArray[cursor].ordinal);
+    console.log(routeGuideArray);
+    console.log(routeGuideGeojson);
+    const utterance = new SpeechSynthesisUtterance(routeGuideArray[cursor+1].direction);
+    speechSynthesis.speak(utterance);
     if(cursor === routeGuideArray.length-2) return;
     cursor++;
 }
@@ -53,7 +58,7 @@ export async function showPreviousRouteGuide() {
             {
                 type: "Feature",
                 properties: {
-                    levelId: routeGuideArray[cursor].levelId
+                    ordinal: routeGuideArray[cursor].ordinal
                 },
                 geometry: {
                     type: "LineString",
@@ -71,7 +76,9 @@ export async function showPreviousRouteGuide() {
         featureProjection: 'EPSG:4326',
     });
     document.getElementById("routing-guide-message").innerText = routeGuideArray[cursor+1].direction;
-    await setMapLevel(IMDFDataByID[routeGuideArray[cursor].levelId].values_.ordinal);
+    await setMapLevel(routeGuideArray[cursor].ordinal);
+    const utterance = new SpeechSynthesisUtterance(routeGuideArray[cursor+1].direction);
+    speechSynthesis.speak(utterance);
     if(cursor === 0) cursor++;
 }
 

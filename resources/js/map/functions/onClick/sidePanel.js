@@ -1,5 +1,7 @@
 import { removeHighlight } from "./hightLight";
-import { deleteFeature } from "../../../API/deleteFeature";
+import { deleteFeature } from "../../../API/IMDFFeatures/deleteFeature";
+import { getFeatureById } from "../../../API/IMDFFeatures/getFeatureById";
+import { updateIMDFFeature } from "../../../API/IMDFFeatures/updateFeature";
 
 const Panel = {
     sidePanel: document.getElementById('side-panel'),
@@ -10,7 +12,7 @@ export async function toggleSidePanel(feature, layerType) {
     if (!layerType || !feature) {
         if(!feature) {
             removeHighlight();
-            Panel.sidePanel.style.left = '-400px';
+            Panel.sidePanel.style.left = '-500px';
             return;
         }
         if(feature.get("feature_type") === 'unit') layerType = "units";
@@ -18,7 +20,7 @@ export async function toggleSidePanel(feature, layerType) {
 
 
     //loading panel incase of api call
-    let panelContent = `<h1> Loading... </h1>`;
+    let panelContent = `<h1> Đang tải... </h1>`;
     Panel.sidePanelContent.innerHTML = panelContent;
     if (document.getElementById('sidebar').classList.contains('hidden')) {
         Panel.sidePanel.style.left = '40px';
@@ -42,16 +44,19 @@ export async function toggleSidePanel(feature, layerType) {
 
 const sidePanelLayerHandler = async (feature, layerType) => {
         let panelContent = null;
-        const name = getName(feature);
-        panelContent = '<p class="mt-2 ml-2 text-gray-700 text-base"><b>Name : </b> ' + name + "</p>"
-        panelContent += '<p class="mt-2 ml-2 text-gray-700 text-base"><b>Id : </b>' + feature.getId() + "</p>";
-        panelContent += '<p class="mt-2 ml-2 text-gray-700 text-base"><b>Type : </b>' + feature.values_.feature_type + "</p>";
-
+        let res = await getFeatureById(feature.getId(), feature.values_.feature_type);
+        const featureDetail = JSON.stringify(res.features[0], null, 2);
+        panelContent = `<h3 class="font-extrabold text-scndBlue mt-2 ml-2">Dữ liệu đối tượng: </h3>`
+        panelContent += `<textarea id="featureJson" class="mt-2 w-full min-h-[450px] p-2 border-2 border-gray-300 rounded-md" spellcheck="false">${featureDetail}</textarea>`
         // Add delete button and confirmation dialog
         panelContent += `<div class="flex justify-end">
-            <button id="delete-button" class="mt-2 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
+            <button id="update-button" class="mr-2 mt-2 bg-scndBlue text-white px-4 py-2 rounded-md hover:bg-thirdBlue">
+                Cập nhật
+            </button>
+            <button id="delete-button" class="mr-2 mt-2 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
                 Xóa
             </button></div>
+
             <div id="confirmation-dialog" class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
                 <div class="bg-white p-6 rounded-md shadow-lg w-96">
                     <h2 class="text-xl font-bold mb-4">Xác nhận xóa</h2>
@@ -72,6 +77,32 @@ const sidePanelLayerHandler = async (feature, layerType) => {
                     <p>Đối tượng đã được xóa thành công.</p>
                     <div class="flex justify-end mt-4">
                         <button id="success-close-button" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+                            Đóng
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+             <div id="update-confirmation-dialog" class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+                <div class="bg-white p-6 rounded-md shadow-lg w-96">
+                    <h2 class="text-xl font-bold mb-4">Xác nhận cập nhật</h2>
+                    <p>Bạn có chắc muốn cập nhật đối tượng này?</p>
+                    <div class="flex justify-end mt-4">
+                        <button id="update-cancel-button" class="bg-gray-200 px-4 py-2 rounded-md hover:bg-gray-300 mr-2">
+                            Hủy bỏ
+                        </button>
+                        <button id="confirm-update-button" class="bg-scndBlue text-white px-4 py-2 rounded-md hover:bg-thirdBlue">
+                            Xác nhận
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div id="update-success-dialog" class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+                <div class="bg-white p-6 rounded-md shadow-lg w-96">
+                    <h2 class="text-xl font-bold mb-4 text-green-600">Cập nhật thành công</h2>
+                    <p>Đối tượng đã được cập nhật thành công.</p>
+                    <div class="flex justify-end mt-4">
+                        <button id="update-success-close-button" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
                             Đóng
                         </button>
                     </div>
@@ -100,11 +131,16 @@ const sidePanelLayerHandler = async (feature, layerType) => {
         // Handle delete confirmation
         confirmDeleteButton.addEventListener("click", async () => {
             confirmationDialog.classList.add("hidden");
-            await deleteFeature(feature.getId(), feature.values_.feature_type); // Ensure async/await for deleteFeature
-            console.log("deleted");
-
+            try {
+                await deleteFeature(feature.getId(), feature.values_.feature_type); // Ensure async/await for deleteFeature
+                console.log("deleted");
+                successDialog.classList.remove("hidden");
+            } catch (error) {
+                console.error("Error deleting feature:", error);
+                alert("An error occurred while deleting the feature.");
+            }
             // Show success dialog
-            successDialog.classList.remove("hidden");
+
         });
 
         // Close the success dialog
@@ -112,26 +148,47 @@ const sidePanelLayerHandler = async (feature, layerType) => {
             successDialog.classList.add("hidden");
             location.reload();
         });
+
+
+        const updateButton = document.getElementById("update-button");
+        const updateConfirmationDialog = document.getElementById("update-confirmation-dialog");
+        const updateCancelButton = document.getElementById("update-cancel-button");
+        const confirmUpdateButton = document.getElementById("confirm-update-button");
+        const updateSuccessDialog = document.getElementById("update-success-dialog");
+        const updateSuccessCloseButton = document.getElementById("update-success-close-button");
+
+        // Show the confirmation dialog
+        updateButton.addEventListener("click", () => {
+            updateConfirmationDialog.classList.remove("hidden");
+        });
+
+        // Hide the confirmation dialog
+        updateCancelButton.addEventListener("click", () => {
+            updateConfirmationDialog.classList.add("hidden");
+        });
+
+        // Handle delete confirmation
+        confirmUpdateButton.addEventListener("click", async () => {
+            try {
+                updateConfirmationDialog.classList.add("hidden");
+                const featureJsonElement = document.getElementById("featureJson");
+                const featureJsonText = featureJsonElement.value;
+                await updateIMDFFeature(feature.getId(), feature.values_.feature_type, featureJsonText);
+                updateSuccessDialog.classList.remove("hidden");
+                console.log("updated");
+            } catch (error) {
+                console.log(error);
+                alert(error);
+            }
+        });
+
+        // Close the success dialog
+        updateSuccessCloseButton.addEventListener("click", () => {
+            updateSuccessDialog.classList.add("hidden");
+            location.reload();
+        });
 };
 
 
 
-function getName(feature) {
-    let name = null;
-    if (feature.values_.name) {
-        name = feature.values_.name.vi;
-    } else if (feature.values_.alt_name) {
-        if (unit.values_.alt_name.vi) {
-            name = unit.values_.alt_name.vi;
-        } else if (unit.values_.alt_name.en) {
-            name = unit.values_.alt_name.en;
-        } else {
-            name = unit.values_.alt_name;
-        }
-    }else if (feature.values_.category) {
-        name = feature.values_.category;
-    }
-
-    return name;
-}
 
